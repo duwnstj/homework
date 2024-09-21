@@ -1,10 +1,13 @@
 package com.sparta.spring_skill_review.todo.entity;
 
+import com.sparta.spring_skill_review.comment.entity.Comment;
 import com.sparta.spring_skill_review.common.TimeStamped;
-import com.sparta.spring_skill_review.todo.dto.request.TodoSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -20,7 +23,10 @@ public class Todo extends TimeStamped {
     private String title;
     private String content;
 
-    public Todo(String writerName, String title , String content){
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
+
+    public Todo(String writerName, String title, String content) {
         this.writerName = writerName;
         this.title = title;
         this.content = content;
@@ -28,7 +34,7 @@ public class Todo extends TimeStamped {
     }
 
 
-    public void update(String title , String content) {
+    public void update(String title, String content) {
         this.title = title;
         this.content = content;
     }
