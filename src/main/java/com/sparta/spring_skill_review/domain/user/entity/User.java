@@ -1,5 +1,6 @@
 package com.sparta.spring_skill_review.domain.user.entity;
 
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.common.entity.TimeStamped;
 import com.sparta.spring_skill_review.domain.todo.entity.Todo;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ public class User extends TimeStamped {
     List<Todo> TodoList = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String email;
     private String userName;
     private String password;
@@ -28,6 +29,16 @@ public class User extends TimeStamped {
         this.email = email;
         this.userName = userName;
         this.password = password;
+    }
+
+    public User(Long id, String email) {
+        this.id =id;
+        this.email =email;
+    }
+
+
+    public static User fromAuthUser(AuthUser authUser) {
+        return new User(authUser.getId(), authUser.getEmail());
     }
 
 

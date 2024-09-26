@@ -1,5 +1,7 @@
 package com.sparta.spring_skill_review.domain.manager.controller;
 
+import com.sparta.spring_skill_review.domain.common.annotaiton.Auth;
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.manager.service.ManagerService;
 import com.sparta.spring_skill_review.domain.manager.dto.request.ManagerSaveRequestDto;
 import com.sparta.spring_skill_review.domain.manager.dto.response.ManagerSaveResponseDto;
@@ -22,12 +24,12 @@ public class ManagerController {
      * request: manageruserId
      * response : managerUserId
      */
-    @PostMapping("/todos/{todoId}/users/{userId}")
+    @PostMapping("/todos/{todoId}/users")
     public ResponseEntity<ManagerSaveResponseDto> saveManager(
             @RequestBody ManagerSaveRequestDto requestDto,
             @PathVariable Long todoId,
-            @PathVariable Long userId) {
-        return ResponseEntity.ok(managerService.saveManager(requestDto,todoId,userId));
+            @Auth AuthUser authUser) {
+        return ResponseEntity.ok(managerService.saveManager(requestDto,todoId,authUser));
     }
 
 

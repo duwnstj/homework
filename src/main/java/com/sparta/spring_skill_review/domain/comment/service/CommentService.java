@@ -8,8 +8,10 @@ import com.sparta.spring_skill_review.domain.comment.dto.response.CommentsGetRes
 import com.sparta.spring_skill_review.domain.comment.dto.response.PostCommentSaveResponseDto;
 import com.sparta.spring_skill_review.domain.comment.entity.Comment;
 import com.sparta.spring_skill_review.domain.comment.repository.CommentRepository;
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.todo.entity.Todo;
 import com.sparta.spring_skill_review.domain.todo.repository.TodoRepository;
+import com.sparta.spring_skill_review.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +29,14 @@ public class CommentService {
 
     // 댓글 저장
     @Transactional
-    public PostCommentSaveResponseDto saveComment(PostCommentSaveRequestDto requestDto, Long todoId) {
+    public PostCommentSaveResponseDto saveComment(PostCommentSaveRequestDto requestDto, Long todoId, AuthUser authUser) {
 
+        User user = User.fromAuthUser(authUser);
         Todo todo = findTodo(todoId);
 
         Comment comment = new Comment(
+                user.getUserName(),
                 requestDto.getContent(),
-                requestDto.getWriterName(),
                 todo
         );
         Comment saveComment = commentRepository.save(comment);

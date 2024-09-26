@@ -7,6 +7,8 @@ import com.sparta.spring_skill_review.domain.comment.dto.response.CommentUpdateR
 import com.sparta.spring_skill_review.domain.comment.dto.response.CommentsGetResponseDto;
 import com.sparta.spring_skill_review.domain.comment.dto.response.PostCommentSaveResponseDto;
 import com.sparta.spring_skill_review.domain.comment.service.CommentService;
+import com.sparta.spring_skill_review.domain.common.annotaiton.Auth;
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,9 @@ public class CommentController {
     @PostMapping("/comments/todos/{todoId}")
     public ResponseEntity<PostCommentSaveResponseDto> saveComment(
             @RequestBody PostCommentSaveRequestDto requestDto,
+            @Auth AuthUser authUser,
             @PathVariable Long todoId) {
-        return ResponseEntity.ok(commentService.saveComment(requestDto, todoId));
+        return ResponseEntity.ok(commentService.saveComment(requestDto, todoId, authUser));
     }
 
     /**
@@ -39,7 +42,7 @@ public class CommentController {
      * response : 댓글 id , 댓글 내용 ,댓글 작성자
      */
     @GetMapping("/comments/{commentId}")
-    public ResponseEntity<CommentGetResponseDto> getComment(@PathVariable Long commentId){
+    public ResponseEntity<CommentGetResponseDto> getComment(@PathVariable Long commentId) {
 
         return ResponseEntity.ok(commentService.getComment(commentId));
     }
@@ -50,7 +53,7 @@ public class CommentController {
      * response : 댓글 id,댓글 작성자, 댓글 내용
      */
     @GetMapping("/comments/todos/{todoId}")
-    public ResponseEntity<List<CommentsGetResponseDto>> getComments(@PathVariable Long todoId){
+    public ResponseEntity<List<CommentsGetResponseDto>> getComments(@PathVariable Long todoId) {
 
         return ResponseEntity.ok(commentService.getComments(todoId));
     }
@@ -64,18 +67,17 @@ public class CommentController {
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<CommentUpdateResponseDto> updateComment(
             @PathVariable Long commentId,
-            @RequestBody CommentUpdateRequestDto requestDto){
+            @RequestBody CommentUpdateRequestDto requestDto) {
 
-        return ResponseEntity.ok(commentService.updateComment(commentId,requestDto));
+        return ResponseEntity.ok(commentService.updateComment(commentId, requestDto));
     }
 
     /**
      * 댓글 삭제
      * pathValiable : 댓글 id
-     *
      */
     @DeleteMapping("comments/{commentId}")
-    public void deleteComment(@PathVariable Long commentId){
+    public void deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
     }
 

@@ -1,5 +1,6 @@
 package com.sparta.spring_skill_review.domain.user.service;
 
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.user.dto.request.UserSaveRequestDto;
 import com.sparta.spring_skill_review.domain.user.repository.UserRepository;
 import com.sparta.spring_skill_review.domain.user.dto.response.UserGetResponseDto;
@@ -22,8 +23,8 @@ public class UserService {
 
 
     // 유저 단건 조회
-    public UserGetResponseDto getUser(Long userId) {
-        User user = userRepository.findById(userId)
+    public UserGetResponseDto getUser(AuthUser authUser) {
+        User user = userRepository.findById(authUser.getId())
                 .orElseThrow(() -> new NullPointerException("찾는 유저가없습니다."));
         return new UserGetResponseDto(
                 user.getId(),
@@ -48,7 +49,7 @@ public class UserService {
 
     //유저 삭제
     @Transactional
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+    public void deleteUser(AuthUser authUser) {
+        userRepository.deleteById(authUser.getId());
     }
 }

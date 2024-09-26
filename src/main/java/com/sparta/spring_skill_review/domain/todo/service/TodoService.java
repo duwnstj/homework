@@ -1,5 +1,6 @@
 package com.sparta.spring_skill_review.domain.todo.service;
 
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.manager.dto.response.ManagerResponseDto;
 import com.sparta.spring_skill_review.domain.manager.entity.Manager;
 import com.sparta.spring_skill_review.domain.manager.repository.ManagerRepository;
@@ -34,9 +35,9 @@ public class TodoService {
 
     //일정 저장
     @Transactional
-    public TodoSaveResponseDto saveTodo(TodoSaveRequestDto requestDto) {
+    public TodoSaveResponseDto saveTodo(TodoSaveRequestDto requestDto, AuthUser authUser) {
 
-        User user = userRepository.findById(requestDto.getWriterUserId())
+        User user = userRepository.findById(authUser.getId())
                 .orElseThrow(() -> new NullPointerException("해당 유저를 찾을 수 없습니다."));
         Todo todo = new Todo(
                 user,

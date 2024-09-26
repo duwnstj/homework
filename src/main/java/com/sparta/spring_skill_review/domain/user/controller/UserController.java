@@ -1,5 +1,7 @@
 package com.sparta.spring_skill_review.domain.user.controller;
 
+import com.sparta.spring_skill_review.domain.common.annotaiton.Auth;
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.user.dto.request.UserSaveRequestDto;
 import com.sparta.spring_skill_review.domain.user.dto.response.UserGetResponseDto;
 import com.sparta.spring_skill_review.domain.user.dto.response.UserSaveResponseDto;
@@ -25,10 +27,10 @@ public class UserController {
      * pathValiable : userId
      * response : userId,userName,email
      */
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserGetResponseDto> getUser(@PathVariable Long userId){
+    @GetMapping
+    public ResponseEntity<UserGetResponseDto> getUser(@Auth AuthUser authUser){
 
-        return ResponseEntity.ok(userService.getUser(userId));
+        return ResponseEntity.ok(userService.getUser(authUser));
     }
 
     /**
@@ -45,9 +47,9 @@ public class UserController {
      * 유저 삭제
      * pathValiable : userId
      */
-    @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId){
-        userService.deleteUser(userId);
+    @DeleteMapping
+    public void deleteUser(@Auth AuthUser authUser){
+        userService.deleteUser(authUser);
     }
 
 

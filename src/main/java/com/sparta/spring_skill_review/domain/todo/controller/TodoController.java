@@ -1,5 +1,7 @@
 package com.sparta.spring_skill_review.domain.todo.controller;
 
+import com.sparta.spring_skill_review.domain.common.annotaiton.Auth;
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.todo.dto.request.TodoSaveRequestDto;
 import com.sparta.spring_skill_review.domain.todo.dto.request.TodoUpdateRequestDto;
 import com.sparta.spring_skill_review.domain.todo.dto.response.TodoGetResponseDto;
@@ -25,9 +27,11 @@ public class TodoController {
      * response : 일정 id , 일정 제목 ,글쓴이, 일정내용
      */
     @PostMapping
-    public ResponseEntity<TodoSaveResponseDto> saveTodo(@RequestBody TodoSaveRequestDto requestDto) {
+    public ResponseEntity<TodoSaveResponseDto> saveTodo(
+            @RequestBody TodoSaveRequestDto requestDto,
+            @Auth AuthUser authUser) {
 
-        return ResponseEntity.ok(todoService.saveTodo(requestDto));
+        return ResponseEntity.ok(todoService.saveTodo(requestDto,authUser));
     }
 
     /**

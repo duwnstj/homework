@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostCommentSaveRequestDto {
 
-    private String writerName;
     private String content;
 }

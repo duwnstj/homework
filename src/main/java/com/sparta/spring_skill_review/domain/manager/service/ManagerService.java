@@ -1,5 +1,6 @@
 package com.sparta.spring_skill_review.domain.manager.service;
 
+import com.sparta.spring_skill_review.domain.common.dto.AuthUser;
 import com.sparta.spring_skill_review.domain.manager.dto.request.ManagerSaveRequestDto;
 import com.sparta.spring_skill_review.domain.manager.dto.response.ManagerSaveResponseDto;
 import com.sparta.spring_skill_review.domain.manager.entity.Manager;
@@ -24,13 +25,13 @@ public class ManagerService {
 
     //매니저 저장
     @Transactional
-    public ManagerSaveResponseDto saveManager(ManagerSaveRequestDto requestDto, Long todoId, Long userId) {
-        User managerUser = userRepository.findById(requestDto.getManagerUserId())
+    public ManagerSaveResponseDto saveManager(ManagerSaveRequestDto requestDto, Long todoId, AuthUser authUser) {
+        User managerUser = userRepository.findById(authUser.getId())
                 .orElseThrow(() -> new NullPointerException("찾는 유저가 없습니다."));
 
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new NullPointerException("찾는 일정이 없습니다."));
-        if (!(ObjectUtils.nullSafeEquals(todo.getUser().getId(), userId))) {
+        if (!(ObjectUtils.nullSafeEquals(todo.getUser().getId(), authUser.getId()))) {
             throw new IllegalArgumentException("매니저를 등록할 권한이 없습니다.");
         }
         Manager newmanager = new Manager(managerUser, todo);

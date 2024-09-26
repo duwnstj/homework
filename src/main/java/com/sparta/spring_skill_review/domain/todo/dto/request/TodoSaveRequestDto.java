@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TodoSaveRequestDto {
 
-    private Long writerUserId;
     private String title;
     private String content;
 }
